@@ -20,12 +20,12 @@ require 'jwt_token'
 RSpec.describe User, type: :model do
   subject(:user) { create(:user) }
 
-  # validations
-  it { is_expected.to validate_presence_of(:email) }
-  it { is_expected.to validate_uniqueness_of(:email) }
-  it { is_expected.to have_secure_password }
+  describe 'associations' do
+    it { is_expected.to validate_presence_of(:email) }
+    it { is_expected.to validate_uniqueness_of(:email) }
+    it { is_expected.to have_secure_password }
+  end
 
-  # methods
   describe '#jwt_token' do
     it 'return encoded jwt token contains user id' do
       jwt_token = JwtToken.encode(user_id: user.id)

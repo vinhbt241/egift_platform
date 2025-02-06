@@ -18,8 +18,10 @@
 require 'jwt_token'
 
 class User < ApplicationRecord
+  # attributes
   has_secure_password
 
+  # validations
   validates :email, presence: true, uniqueness: true
 
   def jwt_token

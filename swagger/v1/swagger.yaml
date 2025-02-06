@@ -1,0 +1,87 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/v1/sessions":
+    post:
+      summary: Create a session (login)
+      tags:
+      - Sessions
+      parameters: []
+      responses:
+        '201':
+          description: session created
+        '404':
+          description: invalid email or password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                session:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                    password:
+                      type: string
+                  required:
+                  - email
+                  - password
+              required:
+              - session
+  "/api/v1/users":
+    post:
+      summary: Create new user (signup)
+      tags:
+      - Users
+      parameters: []
+      responses:
+        '201':
+          description: user created
+        '422':
+          description: user already existed
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                    password:
+                      type: string
+                  required:
+                  - email
+                  - password
+              required:
+              - user
+  "/api/v1/users/me":
+    get:
+      summary: Get user profile
+      tags:
+      - Users
+      security:
+      - bearer_auth: {}
+      responses:
+        '200':
+          description: success
+        '401':
+          description: not authenticated
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com
+components:
+  securitySchemes:
+    bearer_auth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

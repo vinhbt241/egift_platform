@@ -10,19 +10,12 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
-# Indexes
-#
-#  index_users_on_email  (email) UNIQUE
-#
+class UserSerializer < ApplicationSerializer
+  identifier :id
 
-require 'jwt_token'
+  field :email
 
-class User < ApplicationRecord
-  has_secure_password
-
-  validates :email, presence: true, uniqueness: true
-
-  def jwt_token
-    JwtToken.encode(user_id: id)
+  view :with_token do
+    field :jwt_token
   end
 end

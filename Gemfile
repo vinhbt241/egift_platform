@@ -15,6 +15,7 @@ gem 'tzinfo-data', platforms: %i[windows jruby]
 
 gem 'bcrypt'
 gem 'blueprinter'
+gem 'jwt'
 gem 'rswag'
 
 group :development, :test do

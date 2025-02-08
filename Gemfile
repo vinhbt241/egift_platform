@@ -17,6 +17,7 @@ gem 'bcrypt'
 gem 'blueprinter'
 gem 'jwt'
 gem 'rswag'
+gem 'shopify-money'
 
 group :development, :test do
   gem 'brakeman', require: false

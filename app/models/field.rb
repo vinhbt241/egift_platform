@@ -32,7 +32,7 @@ class Field < ApplicationRecord
   private
 
   def must_be_within_field_customizable_limit
-    return unless field_customizable.respond_to?(:field_limit_concern_included?)
+    return unless field_customizable.try(:field_limit_concern_included?)
     return unless field_customizable.fields.count > field_customizable.field_limit
 
     errors.add(

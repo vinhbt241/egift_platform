@@ -19,7 +19,7 @@ class Brand < ApplicationRecord
   include HasFieldLimit
 
   # attributes
-  enum state: { active: 0, archived: 1 }
+  enum :state, { active: 0, archived: 1 }
 
   # validations
   validates :name, presence: true, uniqueness: true

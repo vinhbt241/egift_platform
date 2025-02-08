@@ -1,6 +1,7 @@
 require:
   - rubocop-rails
   - rubocop-rspec
+  - money
 
 AllCops:
   TargetRubyVersion: 3.1.2
@@ -30,3 +31,9 @@ RSpec/EmptyExampleGroup:
 
 RSpec/VariableName:
   Enabled: false
+
+Money/MissingCurrency:
+  Enabled: true
+
+Money/ZeroMoney:
+  Enabled: true

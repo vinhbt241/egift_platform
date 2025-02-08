@@ -15,7 +15,7 @@ Rails.application.routes.draw do
         end
       end
       resources :sessions, only: [:create]
-      resources :brands, only: %i[index create] do
+      resources :brands, only: %i[index create update] do
         scope module: 'brands' do
           resources :products, only: %i[index create]
         end

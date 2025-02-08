@@ -80,4 +80,64 @@ describe 'Brand APIs' do
       end
     end
   end
+
+  path '/api/v1/brands/{id}' do
+    put 'update brand' do
+      tags 'Brands'
+      consumes 'application/json'
+      parameter name: :id, in: :path, type: :string
+      parameter name: :params, in: :body, schema: {
+        type: :object,
+        properties: {
+          brand: {
+            type: :object,
+            properties: {
+              name: { type: :string },
+              state: { type: :string, enum: Brand.states.keys },
+              fields_attributes: {
+                type: :object,
+                properties: {
+                  id: { type: :string },
+                  name: { type: :string },
+                  data: { type: :text },
+                  field_type_id: { type: :string },
+                  _destroy: { type: :boolean }
+                }
+              }
+            }
+          }
+        },
+        required: ['brand']
+      }
+      security [bearer_auth: {}]
+
+      response '200', 'brand edited' do
+        let!(:user) { create(:user) }
+        let(:Authorization) { "Bearer #{user.jwt_token}" }
+        let(:brand) { create(:brand, user:) }
+        let(:id) { brand.id }
+        let(:params) { { brand: { state: 'archived' } } }
+
+        run_test!
+      end
+
+      response '401', 'not authenticated' do
+        let(:Authorization) {}
+        let(:id) { 'brand_id' }
+        let(:params) { { brand: { state: 'archived' } } }
+
+        run_test!
+      end
+
+      response '422', 'record invalid' do
+        let!(:user) { create(:user) }
+        let(:Authorization) { "Bearer #{user.jwt_token}" }
+        let(:brand) { create(:brand, user:) }
+        let(:id) { brand.id }
+        let(:params) { { brand: { name: nil } } }
+
+        run_test!
+      end
+    end
+  end
 end

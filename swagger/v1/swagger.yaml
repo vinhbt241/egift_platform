@@ -65,6 +65,57 @@ paths:
                   - name
               required:
               - brand
+  "/api/v1/brands/{id}":
+    put:
+      summary: update brand
+      tags:
+      - Brands
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      security:
+      - bearer_auth: {}
+      responses:
+        '200':
+          description: brand edited
+        '401':
+          description: not authenticated
+        '422':
+          description: record invalid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                brand:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    state:
+                      type: string
+                      enum:
+                      - active
+                      - archived
+                    fields_attributes:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                        data:
+                          type: text
+                        field_type_id:
+                          type: string
+                        _destroy:
+                          type: boolean
+              required:
+              - brand
   "/api/v1/brands/{brand_id}/products":
     get:
       summary: Retrieve list of products by brand

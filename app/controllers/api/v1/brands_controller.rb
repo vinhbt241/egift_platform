@@ -19,6 +19,17 @@ module API
         end
       end
 
+      def update
+        brand = current_user.brands.find(params[:id])
+
+        if brand.update(brand_params)
+          head :ok
+          return
+        end
+
+        render_resource_errors(errors: brand.errors)
+      end
+
       private
 
       def brand_params

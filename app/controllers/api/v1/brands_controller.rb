@@ -15,7 +15,7 @@ module API
         if brand.save
           head :created
         else
-          render_resource_errors(brand.errors)
+          render_resource_errors(errors: brand.errors)
         end
       end
 

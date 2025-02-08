@@ -21,7 +21,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_08_031357) do
     t.uuid "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_brands_on_name", unique: true
+    t.index ["name", "user_id"], name: "index_brands_on_name_and_user_id", unique: true
     t.index ["user_id"], name: "index_brands_on_user_id"
   end
 
@@ -37,6 +37,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_08_031357) do
     t.string "field_customizable_type"
     t.uuid "field_customizable_id"
     t.text "data"
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["field_customizable_type", "field_customizable_id"], name: "index_fields_on_field_customizable"

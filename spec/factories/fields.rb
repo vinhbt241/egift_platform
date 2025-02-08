@@ -7,6 +7,7 @@
 #  id                      :uuid             not null, primary key
 #  data                    :text
 #  field_customizable_type :string
+#  name                    :string           not null
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  field_customizable_id   :uuid
@@ -23,5 +24,7 @@
 #
 FactoryBot.define do
   factory :field do
+    name { '24' }
+    association :field_type
   end
 end

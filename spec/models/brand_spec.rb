@@ -13,8 +13,8 @@
 #
 # Indexes
 #
-#  index_brands_on_name     (name) UNIQUE
-#  index_brands_on_user_id  (user_id)
+#  index_brands_on_name_and_user_id  (name,user_id) UNIQUE
+#  index_brands_on_user_id           (user_id)
 #
 # Foreign Keys
 #
@@ -27,7 +27,7 @@ RSpec.describe Brand, type: :model do
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:name) }
-    it { is_expected.to validate_uniqueness_of(:name) }
+    it { is_expected.to validate_uniqueness_of(:name).scoped_to(:user_id) }
   end
 
   describe 'attributes' do

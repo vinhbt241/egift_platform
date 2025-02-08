@@ -4,6 +4,7 @@ class CreateFields < ActiveRecord::Migration[7.2]
       t.references :field_type, type: :uuid, foreign_key: { to_table: :field_types }
       t.references :field_customizable, type: :uuid, polymorphic: true
       t.text :data
+      t.string :name, null: false
       t.timestamps
     end
   end

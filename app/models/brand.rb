@@ -13,8 +13,8 @@
 #
 # Indexes
 #
-#  index_brands_on_name     (name) UNIQUE
-#  index_brands_on_user_id  (user_id)
+#  index_brands_on_name_and_user_id  (name,user_id) UNIQUE
+#  index_brands_on_user_id           (user_id)
 #
 # Foreign Keys
 #
@@ -28,7 +28,7 @@ class Brand < ApplicationRecord
   enum :state, { active: 0, archived: 1 }
 
   # validations
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true, uniqueness: { scope: :user_id }
 
   # assocations
   belongs_to :user

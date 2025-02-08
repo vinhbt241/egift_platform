@@ -7,6 +7,7 @@
 #  id                      :uuid             not null, primary key
 #  data                    :text
 #  field_customizable_type :string
+#  name                    :string           not null
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  field_customizable_id   :uuid
@@ -29,7 +30,10 @@ RSpec.describe Field, type: :model do
     it { is_expected.to belong_to(:field_customizable) }
   end
 
-  describe 'validations' do
+  # validations
+  it { is_expected.to validate_presence_of(:name) }
+
+  context 'when validate field limit' do
     let(:field_type) { create(:field_type, name: 'String') }
     let(:field_customizable) { create(:brand) }
     let(:field) { build(:field, field_type: field_type, field_customizable: field_customizable) }

@@ -4,6 +4,62 @@ info:
   title: API V1
   version: v1
 paths:
+  "/api/v1/brands":
+    get:
+      summary: get all brands created by current user
+      tags:
+      - Brands
+      security:
+      - bearer_auth: {}
+      responses:
+        '200':
+          description: success
+        '401':
+          description: not authenticated
+    post:
+      summary: create brand
+      tags:
+      - Brands
+      parameters: []
+      security:
+      - bearer_auth: {}
+      responses:
+        '201':
+          description: brand created
+        '401':
+          description: not authenticated
+        '422':
+          description: record invalid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                brand:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    fields_attributes:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                        data:
+                          type: text
+                        field_type_id:
+                          type: string
+                        _destroy:
+                          type: boolean
+                      required:
+                      - name
+                  required:
+                  - name
+              required:
+              - brand
   "/api/v1/sessions":
     post:
       summary: Create a session (login)
@@ -75,7 +131,7 @@ paths:
         '401':
           description: not authenticated
 servers:
-- url: https://{defaultHost}
+- url: http://{defaultHost}
   variables:
     defaultHost:
       default: www.example.com

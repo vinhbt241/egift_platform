@@ -21,6 +21,7 @@ gem 'shopify-money'
 
 group :development, :test do
   gem 'brakeman', require: false
+  gem 'bullet'
   gem 'debug', platforms: %i[mri windows], require: 'debug/prelude'
   gem 'dotenv-rails'
   gem 'factory_bot_rails'

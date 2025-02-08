@@ -7,6 +7,7 @@
 #  id                      :uuid             not null, primary key
 #  data                    :text
 #  field_customizable_type :string
+#  name                    :string           not null
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  field_customizable_id   :uuid
@@ -27,6 +28,7 @@ class Field < ApplicationRecord
   belongs_to :field_customizable, polymorphic: true
 
   # validations
+  validates :name, presence: true
   validate :must_be_within_field_customizable_limit
 
   private

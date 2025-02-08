@@ -20,7 +20,6 @@ Rails.application.routes.draw do
           resources :products, only: %i[index new create]
         end
       end
-
       resources :products, only: %i[show edit update destroy]
     end
   end

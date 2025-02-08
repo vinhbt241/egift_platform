@@ -13,8 +13,8 @@
 #
 # Indexes
 #
-#  index_brands_on_name     (name) UNIQUE
-#  index_brands_on_user_id  (user_id)
+#  index_brands_on_name_and_user_id  (name,user_id) UNIQUE
+#  index_brands_on_user_id           (user_id)
 #
 # Foreign Keys
 #

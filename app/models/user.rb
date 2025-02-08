@@ -24,6 +24,9 @@ class User < ApplicationRecord
   # validations
   validates :email, presence: true, uniqueness: true
 
+  # associations
+  has_many :brands, dependent: :destroy
+
   def jwt_token
     JwtToken.encode(user_id: id)
   end

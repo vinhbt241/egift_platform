@@ -9,10 +9,16 @@
 #  state      :integer          default("active")
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  user_id    :uuid
 #
 # Indexes
 #
-#  index_brands_on_name  (name) UNIQUE
+#  index_brands_on_name     (name) UNIQUE
+#  index_brands_on_user_id  (user_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (user_id => users.id)
 #
 require 'rails_helper'
 
@@ -30,5 +36,6 @@ RSpec.describe Brand, type: :model do
 
   describe 'associations' do
     it { is_expected.to have_many(:fields) }
+    it { is_expected.to belong_to(:user) }
   end
 end

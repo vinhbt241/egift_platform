@@ -9,6 +9,9 @@ module HasFieldLimit
     # associations
     has_many :fields, as: :field_customizable, dependent: :destroy
 
+    # nested attributes
+    accepts_nested_attributes_for :fields, allow_destroy: true
+
     def field_limit
       DEFAULT_FIELD_LIMIT
     end

@@ -20,9 +20,10 @@
 #
 #  fk_rails_...  (user_id => users.id)
 #
-FactoryBot.define do
-  factory :brand do
-    name { Faker::Company.unique.name }
-    association :user
-  end
+class BrandSerializer < ApplicationSerializer
+  identifier :id
+
+  fields :name, :state
+
+  association :fields, blueprint: FieldSerializer
 end

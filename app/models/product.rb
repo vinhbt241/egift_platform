@@ -7,21 +7,18 @@
 #  id         :bigint           not null, primary key
 #  currency   :string(3)        not null
 #  price      :decimal(21, 3)   not null
-#  state      :integer          default(0)
+#  state      :integer          default("active")
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  brand_id   :uuid
-#  user_id    :uuid
 #
 # Indexes
 #
 #  index_products_on_brand_id  (brand_id)
-#  index_products_on_user_id   (user_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (brand_id => brands.id)
-#  fk_rails_...  (user_id => users.id)
 #
 class Product < ApplicationRecord
   # concerns
@@ -38,7 +35,6 @@ class Product < ApplicationRecord
 
   # associations
   belongs_to :brand
-  belongs_to :user
 
   private
 

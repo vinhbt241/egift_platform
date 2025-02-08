@@ -25,7 +25,6 @@ describe 'Brand APIs' do
     post 'create brand' do
       tags 'Brands'
       consumes 'application/json'
-      produces 'application/json'
       parameter name: :params, in: :body, schema: {
         type: :object,
         properties: {
@@ -33,6 +32,7 @@ describe 'Brand APIs' do
             type: :object,
             properties: {
               name: { type: :string },
+              state: { type: :string, enum: Brand.states.keys },
               fields_attributes: {
                 type: :object,
                 properties: {

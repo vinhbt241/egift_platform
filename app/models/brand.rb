@@ -32,4 +32,5 @@ class Brand < ApplicationRecord
 
   # assocations
   belongs_to :user
+  has_many :products, dependent: :destroy
 end

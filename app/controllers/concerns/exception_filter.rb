@@ -11,6 +11,9 @@ module ExceptionFilter
     rescue_from ActiveRecord::RecordNotFound,
                 with: ->(e) { log_error(e) && render_api_error(APIError::NotFoundError.new) }
 
+    rescue_from Money::Currency::UnknownCurrency,
+                with: ->(e) { log_error(e) && render_api_error(APIError::UnknownCurrencyError.new) }
+
     rescue_from APIError::StandardError,
                 with: ->(e) { log_error(e) && render_api_error(e) }
   end

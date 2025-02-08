@@ -25,6 +25,7 @@ module API
         params.require(:brand).permit(
           [
             :name,
+            :state,
             {
               fields_attributes: %i[
                 id

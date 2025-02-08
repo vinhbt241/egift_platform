@@ -37,3 +37,6 @@ Money/MissingCurrency:
 
 Money/ZeroMoney:
   Enabled: true
+
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false

@@ -55,5 +55,6 @@ RSpec.describe Product, type: :model do
 
   describe 'associations' do
     it { is_expected.to belong_to(:brand) }
+    it { is_expected.to have_many(:fields) }
   end
 end

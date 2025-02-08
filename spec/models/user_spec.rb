@@ -20,10 +20,18 @@ require 'jwt_token'
 RSpec.describe User, type: :model do
   subject(:user) { create(:user) }
 
-  describe 'associations' do
+  describe 'attributes' do
+    it { is_expected.to have_secure_password }
+  end
+
+  describe 'validations' do
     it { is_expected.to validate_presence_of(:email) }
     it { is_expected.to validate_uniqueness_of(:email) }
-    it { is_expected.to have_secure_password }
+  end
+
+  describe 'associations' do
+    it { is_expected.to have_many(:brands) }
+    it { is_expected.to have_many(:products) }
   end
 
   describe '#jwt_token' do

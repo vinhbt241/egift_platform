@@ -17,10 +17,10 @@ Rails.application.routes.draw do
       resources :sessions, only: [:create]
       resources :brands, only: %i[index create] do
         scope module: 'brands' do
-          resources :products, only: %i[index new create]
+          resources :products, only: %i[index create]
         end
       end
-      resources :products, only: %i[show edit update destroy]
+      resources :products, only: %i[show update destroy]
     end
   end
 end

@@ -41,6 +41,11 @@ paths:
                   properties:
                     name:
                       type: string
+                    state:
+                      type: string
+                      enum:
+                      - active
+                      - archived
                     fields_attributes:
                       type: object
                       properties:
@@ -60,6 +65,170 @@ paths:
                   - name
               required:
               - brand
+  "/api/v1/brands/{brand_id}/products":
+    get:
+      summary: Retrieve list of products by brand
+      tags:
+      - Products
+      parameters:
+      - name: brand_id
+        in: path
+        required: true
+        schema:
+          type: string
+      security:
+      - bearer_auth: {}
+      responses:
+        '200':
+          description: success
+        '401':
+          description: not authenticated
+    post:
+      summary: Create product
+      tags:
+      - Products
+      parameters:
+      - name: brand_id
+        in: path
+        required: true
+        schema:
+          type: string
+      security:
+      - bearer_auth: {}
+      responses:
+        '201':
+          description: product created
+        '401':
+          description: not authenticated
+        '422':
+          description: record invalid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                product:
+                  type: object
+                  properties:
+                    state:
+                      type: string
+                      enum:
+                      - active
+                      - archived
+                    price:
+                      type: decimal
+                      example: 100.055
+                    currency:
+                      type: string
+                    fields_attributes:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                        data:
+                          type: text
+                        field_type_id:
+                          type: string
+                        _destroy:
+                          type: boolean
+                      required:
+                      - name
+                  required:
+                  - price
+                  - currency
+              required:
+              - product
+  "/api/v1/products/{id}":
+    get:
+      summary: Retrieve a product
+      tags:
+      - Products
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      security:
+      - bearer_auth: {}
+      responses:
+        '200':
+          description: success
+        '401':
+          description: not authenticated
+    put:
+      summary: update a product
+      tags:
+      - Products
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      security:
+      - bearer_auth: {}
+      responses:
+        '200':
+          description: product edited
+        '401':
+          description: not authenticated
+        '422':
+          description: record invalid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                product:
+                  type: object
+                  properties:
+                    state:
+                      type: string
+                      enum:
+                      - active
+                      - archived
+                    price:
+                      type: decimal
+                      example: 100.055
+                    currency:
+                      type: string
+                    fields_attributes:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                        data:
+                          type: text
+                        field_type_id:
+                          type: string
+                        _destroy:
+                          type: boolean
+              required:
+              - product
+    delete:
+      summary: remove product
+      tags:
+      - Products
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      security:
+      - bearer_auth: {}
+      responses:
+        '204':
+          description: product removed
+        '401':
+          description: not authenticated
   "/api/v1/sessions":
     post:
       summary: Create a session (login)
@@ -131,10 +300,14 @@ paths:
         '401':
           description: not authenticated
 servers:
-- url: http://{defaultHost}
+- url: https://{defaultHost}
   variables:
     defaultHost:
       default: www.example.com
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: localhost:3000
 components:
   securitySchemes:
     bearer_auth:

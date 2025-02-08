@@ -153,8 +153,6 @@ paths:
                   properties:
                     name:
                       type: string
-                    password:
-                      type: string
                     payout_rate:
                       type: decimal
                       example: 75.0
@@ -195,13 +193,37 @@ paths:
                   properties:
                     name:
                       type: string
-                    password:
-                      type: string
                     payout_rate:
                       type: decimal
                       example: 75.0
               required:
               - client
+  "/api/v1/clients/sessions":
+    post:
+      summary: Create a client session (login)
+      tags:
+      - Client/Sessions
+      parameters: []
+      responses:
+        '201':
+          description: session created
+        '404':
+          description: client not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                session:
+                  type: object
+                  properties:
+                    identifier:
+                      type: string
+                  required:
+                  - identifier
+              required:
+              - session
   "/api/v1/brands/{brand_id}/products":
     get:
       summary: Retrieve list of products by brand

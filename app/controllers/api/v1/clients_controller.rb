@@ -25,7 +25,7 @@ module API
       private
 
       def client_params
-        params.require(:client).permit(:name, :password, :payout_rate)
+        params.require(:client).permit(:name, :payout_rate)
       end
     end
   end

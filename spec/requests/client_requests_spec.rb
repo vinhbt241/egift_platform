@@ -33,7 +33,6 @@ describe 'User APIs' do
             type: :object,
             properties: {
               name: { type: :string },
-              password: { type: :string },
               payout_rate: { type: :decimal, example: 75.0 }
             },
             required: %w[name password payout_rate]
@@ -80,7 +79,6 @@ describe 'User APIs' do
             type: :object,
             properties: {
               name: { type: :string },
-              password: { type: :string },
               payout_rate: { type: :decimal, example: 75.0 }
             }
           }

@@ -29,9 +29,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_08_154636) do
     t.uuid "user_id"
     t.decimal "payout_rate", precision: 5, scale: 2, default: "100.0"
     t.string "name", null: false
-    t.string "password_digest", null: false
+    t.string "identifier", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["identifier"], name: "index_clients_on_identifier", unique: true
     t.index ["name", "user_id"], name: "index_clients_on_name_and_user_id", unique: true
     t.index ["user_id"], name: "index_clients_on_user_id"
   end

@@ -4,7 +4,7 @@
 #
 # Table name: products
 #
-#  id         :bigint           not null, primary key
+#  id         :uuid             not null, primary key
 #  currency   :string(3)        not null
 #  price      :decimal(21, 3)   not null
 #  state      :integer          default("active")

@@ -21,18 +21,12 @@
 #
 #  fk_rails_...  (user_id => users.id)
 #
-class Client < ApplicationRecord
-  # attributes
-  has_secure_password
+class ClientSerializer < ApplicationSerializer
+  identifier :id
 
-  # validations
-  validates :name, presence: true, uniqueness: { scope: :user_id }
-  validates :payout_rate, presence: true, numericality: { greater_than_or_equal_to: 0.0, less_than_or_equal_to: 100.0 }
+  fields :name, :payout_rate
 
-  # assocations
-  belongs_to :user
-
-  def jwt_token
-    JwtToken.encode(client_id: id)
+  view :with_token do
+    field :jwt_token
   end
 end

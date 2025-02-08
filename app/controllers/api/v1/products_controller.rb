@@ -11,12 +11,9 @@ module API
       end
 
       def update
-        if @product.update(product_params)
-          head :ok
-          return
-        end
+        @product.update!(product_params)
 
-        render_resource_errors(errors: @product.errors)
+        head :ok
       end
 
       def destroy

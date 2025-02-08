@@ -10,24 +10,16 @@ module API
       end
 
       def create
-        brand = current_user.brands.build(brand_params)
+        current_user.brands.create!(brand_params)
 
-        if brand.save
-          head :created
-        else
-          render_resource_errors(errors: brand.errors)
-        end
+        head :created
       end
 
       def update
         brand = current_user.brands.find(params[:id])
+        brand.update!(brand_params)
 
-        if brand.update(brand_params)
-          head :ok
-          return
-        end
-
-        render_resource_errors(errors: brand.errors)
+        head :ok
       end
 
       private

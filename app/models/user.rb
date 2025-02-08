@@ -27,6 +27,7 @@ class User < ApplicationRecord
   # associations
   has_many :brands, dependent: :destroy
   has_many :products, through: :brands
+  has_many :clients, dependent: :destroy
 
   def jwt_token
     JwtToken.encode(user_id: id)

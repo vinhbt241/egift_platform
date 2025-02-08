@@ -116,6 +116,92 @@ paths:
                           type: boolean
               required:
               - brand
+  "/api/v1/clients":
+    get:
+      summary: get all clients associate with current user
+      tags:
+      - Clients
+      security:
+      - bearer_auth: {}
+      responses:
+        '200':
+          description: success
+        '401':
+          description: not authenticated
+    post:
+      summary: Create client
+      tags:
+      - Clients
+      parameters: []
+      security:
+      - bearer_auth: {}
+      responses:
+        '201':
+          description: client created
+        '401':
+          description: not authenticated
+        '422':
+          description: invalid record
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                client:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    password:
+                      type: string
+                    payout_rate:
+                      type: decimal
+                      example: 75.0
+                  required:
+                  - name
+                  - password
+                  - payout_rate
+              required:
+              - client
+  "/api/v1/clients/{id}":
+    put:
+      summary: Update client
+      tags:
+      - Clients
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      security:
+      - bearer_auth: {}
+      responses:
+        '200':
+          description: client created
+        '401':
+          description: not authenticated
+        '422':
+          description: invalid record
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                client:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    password:
+                      type: string
+                    payout_rate:
+                      type: decimal
+                      example: 75.0
+              required:
+              - client
   "/api/v1/brands/{brand_id}/products":
     get:
       summary: Retrieve list of products by brand

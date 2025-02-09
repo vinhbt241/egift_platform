@@ -33,6 +33,8 @@ class Client < ApplicationRecord
 
   # assocations
   belongs_to :user
+  has_many :product_accesses, dependent: :destroy
+  has_many :products, through: :product_accesses
 
   # callback
   before_validation :generate_identifier, if: -> { identifier.blank? }

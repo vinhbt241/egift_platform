@@ -224,6 +224,73 @@ paths:
                   - identifier
               required:
               - session
+  "/api/v1/product_accesses":
+    post:
+      summary: Create product accesses for a client
+      tags:
+      - Product Accesses
+      parameters: []
+      security:
+      - bearer_auth: {}
+      responses:
+        '201':
+          description: product access created
+        '401':
+          description: not authenticated
+        '422':
+          description: record invalid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                product_access:
+                  type: object
+                  properties:
+                    client_id:
+                      type: string
+                    product_ids:
+                      type: array
+                      items:
+                        type: string
+                  required:
+                  - client_id
+                  - product_ids
+              required:
+              - product_access
+    delete:
+      summary: Remove product accesses from a client
+      tags:
+      - Product Accesses
+      parameters: []
+      security:
+      - bearer_auth: {}
+      responses:
+        '204':
+          description: product accesses removed
+        '401':
+          description: not authenticated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                product_access:
+                  type: object
+                  properties:
+                    client_id:
+                      type: string
+                    product_ids:
+                      type: array
+                      items:
+                        type: string
+                  required:
+                  - client_id
+                  - product_ids
+              required:
+              - product_access
   "/api/v1/brands/{brand_id}/products":
     get:
       summary: Retrieve list of products by brand

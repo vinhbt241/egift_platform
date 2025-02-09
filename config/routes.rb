@@ -30,6 +30,9 @@ Rails.application.routes.draw do
       namespace :clients do
         resources :sessions, only: [:create]
       end
+
+      resources :product_accesses, only: %i[create]
+      delete :product_accesses, to: 'product_accesses#destroy'
     end
   end
 end

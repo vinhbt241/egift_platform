@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_08_154636) do
+ActiveRecord::Schema[7.2].define(version: 2025_02_09_012953) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -56,6 +56,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_08_154636) do
     t.index ["field_type_id"], name: "index_fields_on_field_type_id"
   end
 
+  create_table "product_accesses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "product_id"
+    t.uuid "client_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["client_id"], name: "index_product_accesses_on_client_id"
+    t.index ["product_id", "client_id"], name: "index_product_accesses_on_product_id_and_client_id", unique: true
+    t.index ["product_id"], name: "index_product_accesses_on_product_id"
+  end
+
   create_table "products", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.integer "state", default: 0
     t.uuid "brand_id"
@@ -77,5 +87,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_02_08_154636) do
   add_foreign_key "brands", "users"
   add_foreign_key "clients", "users"
   add_foreign_key "fields", "field_types"
+  add_foreign_key "product_accesses", "clients"
+  add_foreign_key "product_accesses", "products"
   add_foreign_key "products", "brands"
 end

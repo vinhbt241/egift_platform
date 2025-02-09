@@ -38,6 +38,16 @@ RSpec.describe Client, type: :model do
     it { is_expected.to have_many(:products) }
   end
 
+  describe 'callbacks' do
+    context 'when prepare to validate' do
+      let(:client) { create(:client, identifier: nil) }
+
+      it 'generate identifier if missing' do
+        expect(client.identifier).to be_truthy
+      end
+    end
+  end
+
   describe '#jwt_token' do
     let(:client) { create(:client) }
 

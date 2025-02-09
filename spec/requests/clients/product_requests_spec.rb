@@ -2,7 +2,7 @@
 
 require 'swagger_helper'
 
-describe 'Products APIs' do
+describe 'Client Products APIs' do
   path '/api/v1/clients/products' do
     get 'Retrieve list of products client can access' do
       tags 'Client/Products'

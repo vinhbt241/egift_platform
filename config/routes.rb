@@ -33,6 +33,7 @@ Rails.application.routes.draw do
         resources :cards, only: %i[index create] do
           collection do
             put :activate
+            put :redeem
             put :cancel
           end
         end

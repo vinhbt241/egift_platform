@@ -30,7 +30,78 @@ RSpec.describe Card, type: :model do
   subject { create(:card) }
 
   describe 'validations' do
+    let(:client) { create(:client) }
+    let(:product) { create(:product) }
+
     it { is_expected.to validate_uniqueness_of(:pin_number).scoped_to(:activation_number) }
+
+    # rubocop:disable Rails/SkipsModelValidations
+    context 'when validate can_active' do
+      let(:card) { create(:card, client: client, product: product, status: :created) }
+
+      it 'allows activation when the card is in created status' do
+        card.status = :active
+        expect(card).to be_valid
+      end
+
+      it 'does not allow activation if the previous status is not created' do
+        card.update_columns(status: :redeemed)
+        card.status = :active
+        expect(card).not_to be_valid
+      end
+
+      it 'create error messsage if the previous status is not created' do
+        card.update_columns(status: :redeemed)
+        card.status = :active
+        card.valid?
+        expect(card.errors[:status]).to include('can not be activated')
+      end
+    end
+
+    context 'when validate can_redeem' do
+      let(:card) { create(:card, client: client, product: product, status: :active) }
+
+      it 'allows redemption when the card is in active status' do
+        card.status = :redeemed
+        expect(card).to be_valid
+      end
+
+      it 'does not allow redeeming if the previous status is not active' do
+        card.update_columns(status: :created)
+        card.status = :redeemed
+        expect(card).not_to be_valid
+      end
+
+      it 'create error messsage if the previous status is not active' do
+        card.update_columns(status: :created)
+        card.status = :redeemed
+        card.valid?
+        expect(card.errors[:status]).to include('can not be redeemed')
+      end
+    end
+
+    context 'when validate can_cancel' do
+      let(:card) { create(:card, client: client, product: product) }
+
+      it 'allows cancellation when the card is not in redeemed status' do
+        card.status = :canceled
+        expect(card).to be_valid
+      end
+
+      it 'does not allow cancellation if the previous status is redeemed' do
+        card.update_columns(status: :redeemed)
+        card.status = :canceled
+        expect(card).not_to be_valid
+      end
+
+      it 'create error messsage if the previous status is redeemed' do
+        card.update_columns(status: :redeemed)
+        card.status = :canceled
+        card.valid?
+        expect(card.errors[:status]).to include('can not be canceled')
+      end
+    end
+    # rubocop:enable Rails/SkipsModelValidations
   end
 
   describe 'attributes' do

@@ -34,6 +34,9 @@ class Card < ApplicationRecord
 
   # validations
   validates :pin_number, uniqueness: { scope: :activation_number }
+  validate :can_active
+  validate :can_redeem
+  validate :can_cancel
 
   # associations
   belongs_to :client
@@ -66,5 +69,23 @@ class Card < ApplicationRecord
 
       break unless Card.exists?(activation_number: activation_number, pin_number: pin_number)
     end
+  end
+
+  def can_active
+    return unless status_changed? && active? && (status_was != 'created')
+
+    errors.add(:status, 'can not be activated')
+  end
+
+  def can_redeem
+    return unless status_changed? && redeemed? && (status_was != 'active')
+
+    errors.add(:status, 'can not be redeemed')
+  end
+
+  def can_cancel
+    return unless status_changed? && canceled? && (status_was == 'redeemed')
+
+    errors.add(:status, 'can not be canceled')
   end
 end

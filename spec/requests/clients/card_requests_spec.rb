@@ -106,6 +106,62 @@ describe 'Client Cards APIs' do
 
         run_test!
       end
+
+      response '422', 'card can not be activated' do
+        let!(:card) { create(:card, status: :canceled) }
+        let(:client) { card.client }
+        let(:Authorization) { "Bearer #{client.jwt_token}" }
+        let(:params) { { card: { activation_number: card.activation_number } } }
+
+        run_test!
+      end
+    end
+  end
+
+  path '/api/v1/clients/cards/redeem' do
+    put 'Redeem card' do
+      tags 'Client/Cards'
+      consumes 'application/json'
+      parameter name: :params, in: :body, schema: {
+        type: :object,
+        properties: {
+          card: {
+            type: :object,
+            properties: {
+              activation_number: { type: :string },
+              pin_number: { type: :string }
+            },
+            required: %w[activation_number]
+          }
+        },
+        required: ['card']
+      }
+      security [bearer_auth: {}]
+
+      response '200', 'card redeemed' do
+        let!(:card) { create(:card, status: :active) }
+        let(:client) { card.client }
+        let(:Authorization) { "Bearer #{client.jwt_token}" }
+        let(:params) { { card: { activation_number: card.activation_number } } }
+
+        run_test!
+      end
+
+      response '401', 'not authenticated' do
+        let(:Authorization) {}
+        let(:params) { { card: { activation_number: 'activation_number' } } }
+
+        run_test!
+      end
+
+      response '422', 'card can not be redeemed' do
+        let!(:card) { create(:card, status: :created) }
+        let(:client) { card.client }
+        let(:Authorization) { "Bearer #{client.jwt_token}" }
+        let(:params) { { card: { activation_number: card.activation_number } } }
+
+        run_test!
+      end
     end
   end
 
@@ -141,6 +197,20 @@ describe 'Client Cards APIs' do
       response '401', 'not authenticated' do
         let(:Authorization) {}
         let(:params) { { card: { activation_number: 'activation_number' } } }
+
+        run_test!
+      end
+
+      response '422', 'card can not be canceled' do
+        let!(:card) { create(:card) }
+        let(:client) { card.client }
+        let(:Authorization) { "Bearer #{client.jwt_token}" }
+        let(:params) { { card: { activation_number: card.activation_number } } }
+
+        before do
+          card.active!
+          card.redeemed!
+        end
 
         run_test!
       end

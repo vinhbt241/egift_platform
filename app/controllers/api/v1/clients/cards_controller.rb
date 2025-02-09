@@ -5,7 +5,7 @@ module API
     module Clients
       class CardsController < BaseController
         before_action :authenticate_client!
-        before_action :prepare_card, only: %i[activate cancel]
+        before_action :prepare_card, only: %i[activate redeem cancel]
 
         def index
           render_resource_collection(current_client.cards)
@@ -19,6 +19,12 @@ module API
 
         def activate
           @card.active!
+
+          head :ok
+        end
+
+        def redeem
+          @card.redeemed!
 
           head :ok
         end

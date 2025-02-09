@@ -198,6 +198,153 @@ paths:
                       example: 75.0
               required:
               - client
+  "/api/v1/clients/cards":
+    get:
+      summary: Retrieve list of client's cards
+      tags:
+      - Client/Cards
+      security:
+      - bearer_auth: {}
+      responses:
+        '200':
+          description: success
+        '401':
+          description: not authenticated
+    post:
+      summary: Request a new card
+      tags:
+      - Client/Cards
+      parameters: []
+      security:
+      - bearer_auth: {}
+      responses:
+        '201':
+          description: card issued
+        '401':
+          description: not authenticated
+        '422':
+          description: record invalid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                card:
+                  type: object
+                  properties:
+                    product_id:
+                      type: string
+                    activation_number:
+                      type: string
+                    pin_number:
+                      type: string
+                  required:
+                  - product_id
+              required:
+              - card
+  "/api/v1/clients/cards/activate":
+    put:
+      summary: Activate card
+      tags:
+      - Client/Cards
+      parameters: []
+      security:
+      - bearer_auth: {}
+      responses:
+        '200':
+          description: card activated
+        '401':
+          description: not authenticated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                card:
+                  type: object
+                  properties:
+                    activation_number:
+                      type: string
+                    pin_number:
+                      type: string
+                  required:
+                  - activation_number
+              required:
+              - card
+  "/api/v1/clients/cards/redeem":
+    put:
+      summary: Redeem card
+      tags:
+      - Client/Cards
+      parameters: []
+      security:
+      - bearer_auth: {}
+      responses:
+        '200':
+          description: card redeemed
+        '401':
+          description: not authenticated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                card:
+                  type: object
+                  properties:
+                    activation_number:
+                      type: string
+                    pin_number:
+                      type: string
+                  required:
+                  - activation_number
+              required:
+              - card
+  "/api/v1/clients/cards/cancel":
+    put:
+      summary: Cancel card
+      tags:
+      - Client/Cards
+      parameters: []
+      security:
+      - bearer_auth: {}
+      responses:
+        '200':
+          description: card canceled
+        '401':
+          description: not authenticated
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                card:
+                  type: object
+                  properties:
+                    activation_number:
+                      type: string
+                    pin_number:
+                      type: string
+                  required:
+                  - activation_number
+              required:
+              - card
+  "/api/v1/clients/products":
+    get:
+      summary: Retrieve list of products client can access
+      tags:
+      - Client/Products
+      security:
+      - bearer_auth: {}
+      responses:
+        '200':
+          description: success
+        '401':
+          description: not authenticated
   "/api/v1/clients/sessions":
     post:
       summary: Create a client session (login)

@@ -41,6 +41,8 @@ Rails.application.routes.draw do
 
       resources :product_accesses, only: %i[create]
       delete :product_accesses, to: 'product_accesses#destroy'
+
+      resources :card_activities, only: %i[create]
     end
   end
 end

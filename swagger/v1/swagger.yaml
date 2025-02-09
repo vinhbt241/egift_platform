@@ -116,6 +116,45 @@ paths:
                           type: boolean
               required:
               - brand
+  "/api/v1/card_activities":
+    post:
+      summary: Retrieve a report of card activities for current user base on filters
+      tags:
+      - Card Activities (Report)
+      parameters: []
+      security:
+      - bearer_auth: {}
+      responses:
+        '200':
+          description: success
+        '401':
+          description: not authenticated
+        '404':
+          description: invalid filters
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                card_activity:
+                  type: object
+                  properties:
+                    filters:
+                      type: object
+                      properties:
+                        card_id:
+                          type: string
+                        product_id:
+                          type: string
+                        brand_id:
+                          type: string
+                        client_id:
+                          type: string
+                        name:
+                          type: string
+                        from_datetime:
+                          type: datime
   "/api/v1/clients":
     get:
       summary: get all clients associate with current user
@@ -256,6 +295,8 @@ paths:
           description: card activated
         '401':
           description: not authenticated
+        '422':
+          description: card can not be activated
       requestBody:
         content:
           application/json:
@@ -286,6 +327,8 @@ paths:
           description: card redeemed
         '401':
           description: not authenticated
+        '422':
+          description: card can not be redeemed
       requestBody:
         content:
           application/json:
@@ -316,6 +359,8 @@ paths:
           description: card canceled
         '401':
           description: not authenticated
+        '422':
+          description: card can not be canceled
       requestBody:
         content:
           application/json:

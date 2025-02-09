@@ -9,13 +9,9 @@ module API
         end
 
         def create
-          product = @brand.products.build(product_params)
+          @brand.products.create!(product_params)
 
-          if product.save
-            head :created
-          else
-            render_resource_errors(errors: product.errors)
-          end
+          head :created
         end
 
         private

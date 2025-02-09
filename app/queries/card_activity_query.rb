@@ -1,47 +1,53 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/AbcSize
 class CardActivityQuery < ApplicationQuery
   def call(filters: {})
-    user = User.find(filters[:user_id])
-
     scope.extending(Scopes)
+         .by_user(user_id: filters[:user_id])
          .by_card(card_id: filters[:card_id])
-         .by_product(product_id: filters[:product_id], user:)
-         .by_brand(brand_id: filters[:brand_id], user:)
-         .by_client(client_id: filters[:client_id], user:)
+         .by_product(product_id: filters[:product_id])
+         .by_brand(brand_id: filters[:brand_id])
+         .by_client(client_id: filters[:client_id])
          .by_name(name: filters[:name])
          .by_from_datetime(from_datetime: filters[:from_datetime])
          .order(created_at: :desc)
   end
 
   module Scopes
+    def by_user(user_id:)
+      return CardActivity.none if user_id.blank?
+
+      user = User.find(user_id)
+
+      where(id: user.card_activities)
+    end
+
     def by_card(card_id:)
       return self if card_id.blank?
 
       where(trackable_type: 'Card', trackable_id: card_id)
     end
 
-    def by_product(product_id:, user:)
+    def by_product(product_id:)
       return self if product_id.blank?
 
-      product = user.products.find(product_id)
+      product = Product.find(product_id)
 
       where(id: product.card_activities.pluck(:id))
     end
 
-    def by_brand(brand_id:, user:)
+    def by_brand(brand_id:)
       return self if brand_id.blank?
 
-      brand = user.brands.find(brand_id)
+      brand = Brand.find(brand_id)
 
       where(id: brand.card_activities.pluck(:id))
     end
 
-    def by_client(client_id:, user:)
+    def by_client(client_id:)
       return self if client_id.blank?
 
-      client = user.clients.find(client_id)
+      client = Client.find(client_id)
 
       where(id: client.card_activities.pluck(:id))
     end
@@ -55,8 +61,7 @@ class CardActivityQuery < ApplicationQuery
     def by_from_datetime(from_datetime:)
       return self if from_datetime.blank?
 
-      where(from_datetime: [from_datetime..])
+      where(created_at: [from_datetime..])
     end
   end
 end
-# rubocop:enable Metrics/AbcSize

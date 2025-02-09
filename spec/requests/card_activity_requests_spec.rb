@@ -45,15 +45,6 @@ describe 'Client Cards APIs' do
 
         run_test!
       end
-
-      response '404', 'invalid filters' do
-        let!(:user) { create(:user) }
-        let(:Authorization) { "Bearer #{user.jwt_token}" }
-        let(:product) { create(:product) }
-        let(:params) { { card_activity: { filters: { product_id: product.id } } } }
-
-        run_test!
-      end
     end
   end
 end

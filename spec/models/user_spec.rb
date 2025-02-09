@@ -33,6 +33,7 @@ RSpec.describe User, type: :model do
     it { is_expected.to have_many(:brands) }
     it { is_expected.to have_many(:products) }
     it { is_expected.to have_many(:clients) }
+    it { is_expected.to have_many(:card_activities) }
   end
 
   describe '#jwt_token' do

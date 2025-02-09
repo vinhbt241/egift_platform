@@ -35,6 +35,8 @@ class Product < ApplicationRecord
 
   # associations
   belongs_to :brand
+  has_many :cards, dependent: :destroy
+  has_many :card_activities, through: :cards
 
   # scopes
   scope :viewable, -> { joins(:brand).where(brands: { state: :active }).active }

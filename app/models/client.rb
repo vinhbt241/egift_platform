@@ -36,6 +36,7 @@ class Client < ApplicationRecord
   has_many :product_accesses, dependent: :destroy
   has_many :products, through: :product_accesses
   has_many :cards, dependent: :destroy
+  has_many :card_activities, through: :cards
 
   # callback
   before_validation :generate_identifier, if: -> { identifier.blank? }

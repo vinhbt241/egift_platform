@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_02_09_035413) do
+ActiveRecord::Schema[7.2].define(version: 2025_02_09_082209) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "activities", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "type", null: false
+    t.string "name", null: false
+    t.jsonb "notes", default: {}
+    t.string "trackable_type"
+    t.uuid "trackable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["trackable_type", "trackable_id"], name: "index_activities_on_trackable"
+  end
 
   create_table "brands", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.integer "state", default: 0

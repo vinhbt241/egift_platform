@@ -23,13 +23,13 @@
 #  fk_rails_...  (field_type_id => field_types.id)
 #
 class Field < ApplicationRecord
-  # associations
-  belongs_to :field_type
-  belongs_to :field_customizable, polymorphic: true
-
   # validations
   validates :name, presence: true
   validate :must_be_within_field_customizable_limit
+
+  # associations
+  belongs_to :field_type
+  belongs_to :field_customizable, polymorphic: true
 
   private
 

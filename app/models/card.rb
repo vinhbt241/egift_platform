@@ -28,6 +28,12 @@ class Card < ApplicationRecord
   # constants
   ACTIVATION_NUMBER_DEFAULT_LENGTH = 16
   PIN_NUMBER_DEFAULT_LENGTH = 8
+  CARD_ACTIVITIES = {
+    created: 'CARD_CREATED',
+    active: 'CARD_ACTIVE',
+    redeemed: 'CARD_REDEEMDED',
+    canceled: 'CARD_CANCELED'
+  }.freeze
 
   # attributes
   enum :status, { created: 0, active: 1, redeemed: 2, canceled: 3 }
@@ -41,10 +47,13 @@ class Card < ApplicationRecord
   # associations
   belongs_to :client
   belongs_to :product
+  has_many :card_activities, as: :trackable, dependent: :destroy
 
   # callback
   before_validation :generate_activation_number, if: -> { activation_number.blank? }
   before_validation :generate_pin_number, if: -> { pin_number.blank? }
+  after_create :generate_activities
+  before_update :generate_activities, if: :status_changed?
 
   # scopes
   scope :by_credentials, lambda { |an, pn|
@@ -87,5 +96,11 @@ class Card < ApplicationRecord
     return unless status_changed? && canceled? && (status_was == 'redeemed')
 
     errors.add(:status, 'can not be canceled')
+  end
+
+  def generate_activities
+    card_activities.create!(
+      name: Card::CARD_ACTIVITIES[status.to_sym]
+    )
   end
 end

@@ -111,6 +111,7 @@ RSpec.describe Card, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to(:client) }
     it { is_expected.to belong_to(:product) }
+    it { is_expected.to have_many(:card_activities) }
   end
 
   describe 'callbacks' do
@@ -123,6 +124,24 @@ RSpec.describe Card, type: :model do
 
       it 'generate pin number if missing' do
         expect(card.pin_number).to be_truthy
+      end
+    end
+
+    context 'when create record' do
+      let(:card) { create(:card) }
+
+      it 'generate card activity' do
+        expect(card.card_activities.count).to eq(1)
+      end
+    end
+
+    context 'when update record' do
+      let(:card) { create(:card) }
+
+      it 'generate card activity if status changed', :aggregate_failures do
+        expect(card.card_activities.count).to eq(1)
+        card.active!
+        expect(card.card_activities.count).to eq(2)
       end
     end
   end

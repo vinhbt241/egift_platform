@@ -35,8 +35,9 @@ RSpec.describe Brand, type: :model do
   end
 
   describe 'associations' do
+    it { is_expected.to belong_to(:user) }
     it { is_expected.to have_many(:fields) }
     it { is_expected.to have_many(:products) }
-    it { is_expected.to belong_to(:user) }
+    it { is_expected.to have_many(:card_activities) }
   end
 end

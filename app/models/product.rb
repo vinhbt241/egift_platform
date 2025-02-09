@@ -36,6 +36,9 @@ class Product < ApplicationRecord
   # associations
   belongs_to :brand
 
+  # scopes
+  scope :viewable, -> { joins(:brand).where(brands: { state: :active }).active }
+
   private
 
   def currency_must_exist

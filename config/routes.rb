@@ -29,6 +29,7 @@ Rails.application.routes.draw do
 
       namespace :clients do
         resources :sessions, only: [:create]
+        resources :products, only: [:index]
       end
 
       resources :product_accesses, only: %i[create]

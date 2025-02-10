@@ -47,6 +47,30 @@ RSpec.describe Product, type: :model do
         expect { product.valid? }.to raise_error(Money::Currency::UnknownCurrency)
       end
     end
+
+    describe 'validates fields_within_limit' do
+      let(:field_type) { create(:field_type) }
+      let(:product) { build(:product) }
+
+      before do
+        fields_attributes = []
+        6.times do |i|
+          fields_attributes << { name: "number_#{i}", data: i.to_s, field_type_id: field_type.id }
+        end
+        product.fields_attributes = fields_attributes
+      end
+
+      it 'is invalid' do
+        expect(product).not_to be_valid
+      end
+
+      it 'add error message' do
+        product.valid?
+        expect(product.errors[:fields]).to include(
+          "exceeds the maximum limit of #{product.field_limit} per #{product.class.name}"
+        )
+      end
+    end
   end
 
   describe 'attributes' do

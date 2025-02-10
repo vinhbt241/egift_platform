@@ -64,7 +64,9 @@ RSpec.describe Field, type: :model do
 
       it 'add validation error' do
         field.valid?
-        expect(field.errors[:field_customizable]).to include("must be less than #{field_limit}")
+        expect(field.errors[:field]).to include(
+          "exceeds the maximum limit of #{field_limit} per #{field_customizable.class.name}"
+        )
       end
     end
   end

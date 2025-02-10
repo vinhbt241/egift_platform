@@ -38,8 +38,8 @@ class Field < ApplicationRecord
     return unless field_customizable.fields.count > field_customizable.field_limit
 
     errors.add(
-      :field_customizable,
-      "must be less than #{field_customizable.field_limit}"
+      :field,
+      "exceeds the maximum limit of #{field_customizable.field_limit} per #{field_customizable.class.name}"
     )
   end
 end

@@ -28,6 +28,30 @@ RSpec.describe Brand, type: :model do
   describe 'validations' do
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_uniqueness_of(:name).scoped_to(:user_id) }
+
+    describe 'validates fields_within_limit' do
+      let(:field_type) { create(:field_type) }
+      let(:brand) { build(:brand) }
+
+      before do
+        fields_attributes = []
+        6.times do |i|
+          fields_attributes << { name: "number_#{i}", data: i.to_s, field_type_id: field_type.id }
+        end
+        brand.fields_attributes = fields_attributes
+      end
+
+      it 'is invalid' do
+        expect(brand).not_to be_valid
+      end
+
+      it 'add error message' do
+        brand.valid?
+        expect(brand.errors[:fields]).to include(
+          "exceeds the maximum limit of #{brand.field_limit} per #{brand.class.name}"
+        )
+      end
+    end
   end
 
   describe 'attributes' do

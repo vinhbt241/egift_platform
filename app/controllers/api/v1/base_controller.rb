@@ -5,6 +5,8 @@ require 'jwt_token'
 module API
   module V1
     class BaseController < ApplicationController
+      protect_from_forgery with: :null_session, if: -> { Rails.env.development? }
+
       def authenticate_request!
         return if current_user.present?
 

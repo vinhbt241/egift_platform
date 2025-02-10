@@ -19,6 +19,11 @@ eGiftHub is a modern eGift platform that allows users to manage brands, products
 git clone https://github.com/vinhbt241/egift_platform.git
 cd egift_platform
 bundle install
+# Remember to update the environment variables for you local database first, see Configuration section for more details
+rails db:create
+rails db:migrate
+# Optional - seed data
+rails db:seed
 ```
 
 ## 🚀 Usage

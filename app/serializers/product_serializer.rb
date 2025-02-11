@@ -23,7 +23,7 @@
 class ProductSerializer < ApplicationSerializer
   identifier :id
 
-  fields :state, :price, :currency, :brand_id
+  fields :state, :price, :brand_id
 
   association :fields, blueprint: FieldSerializer
 end

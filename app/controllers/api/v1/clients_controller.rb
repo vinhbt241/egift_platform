@@ -4,20 +4,24 @@ module API
   module V1
     class ClientsController < BaseController
       before_action :authenticate_request!
+      before_action :prepare_client, only: %i[show update]
 
       def index
         render_resource_collection(current_user.clients)
       end
 
       def create
-        current_user.clients.create!(client_params)
+        client = current_user.clients.create!(client_params)
 
-        head :created
+        render_resource(client, view: :with_identifier, status: :created)
+      end
+
+      def show
+        render_resource(@client, view: :with_identifier)
       end
 
       def update
-        client = current_user.clients.find(params[:id])
-        client.update!(client_params)
+        @client.update!(client_params)
 
         head :ok
       end
@@ -26,6 +30,10 @@ module API
 
       def client_params
         params.require(:client).permit(:name, :payout_rate)
+      end
+
+      def prepare_client
+        @client = current_user.clients.find(params[:id])
       end
     end
   end

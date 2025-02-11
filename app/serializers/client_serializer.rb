@@ -30,4 +30,8 @@ class ClientSerializer < ApplicationSerializer
   view :with_token do
     field :jwt_token
   end
+
+  view :with_identifier do
+    field :identifier
+  end
 end

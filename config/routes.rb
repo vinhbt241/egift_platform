@@ -9,6 +9,18 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      namespace :clients do
+        resources :sessions, only: [:create]
+        resources :products, only: [:index]
+        resources :cards, only: %i[index create] do
+          collection do
+            put :activate
+            put :redeem
+            put :cancel
+          end
+        end
+      end
+
       resources :users, only: %i[create] do
         collection do
           get :me
@@ -25,19 +37,7 @@ Rails.application.routes.draw do
 
       resources :products, only: %i[show update destroy]
 
-      resources :clients, only: %i[index create update]
-
-      namespace :clients do
-        resources :sessions, only: [:create]
-        resources :products, only: [:index]
-        resources :cards, only: %i[index create] do
-          collection do
-            put :activate
-            put :redeem
-            put :cancel
-          end
-        end
-      end
+      resources :clients, only: %i[index show create update]
 
       resources :product_accesses, only: %i[create]
       delete :product_accesses, to: 'product_accesses#destroy'

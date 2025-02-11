@@ -68,6 +68,37 @@ describe 'User APIs' do
   end
 
   path '/api/v1/clients/{id}' do
+    get 'Retrieve client' do
+      tags 'Clients'
+      produces 'application/json'
+      parameter name: :id, in: :path, type: :string
+      security [bearer_auth: {}]
+
+      response '200', 'client created' do
+        let!(:user) { create(:user) }
+        let(:Authorization) { "Bearer #{user.jwt_token}" }
+        let(:client) { create(:client, user:) }
+        let(:id) { client.id }
+
+        run_test!
+      end
+
+      response '401', 'not authenticated' do
+        let(:Authorization) {}
+        let(:id) { 'client_id' }
+
+        run_test!
+      end
+
+      response '404', 'not found' do
+        let!(:user) { create(:user) }
+        let(:Authorization) { "Bearer #{user.jwt_token}" }
+        let(:id) { 'client_id' }
+
+        run_test!
+      end
+    end
+
     put 'Update client' do
       tags 'Clients'
       consumes 'application/json'
@@ -87,7 +118,7 @@ describe 'User APIs' do
       }
       security [bearer_auth: {}]
 
-      response '200', 'client created' do
+      response '200', 'client updated' do
         let!(:user) { create(:user) }
         let(:Authorization) { "Bearer #{user.jwt_token}" }
         let(:client) { create(:client, user:) }

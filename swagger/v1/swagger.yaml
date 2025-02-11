@@ -129,8 +129,6 @@ paths:
           description: success
         '401':
           description: not authenticated
-        '404':
-          description: invalid filters
       requestBody:
         content:
           application/json:
@@ -202,6 +200,25 @@ paths:
               required:
               - client
   "/api/v1/clients/{id}":
+    get:
+      summary: Retrieve client
+      tags:
+      - Clients
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      security:
+      - bearer_auth: {}
+      responses:
+        '200':
+          description: client created
+        '401':
+          description: not authenticated
+        '404':
+          description: not found
     put:
       summary: Update client
       tags:
@@ -216,7 +233,7 @@ paths:
       - bearer_auth: {}
       responses:
         '200':
-          description: client created
+          description: client updated
         '401':
           description: not authenticated
         '422':

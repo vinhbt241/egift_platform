@@ -65,6 +65,7 @@ bundle exec annotate
 
 ## 📚 API Documentation
 - Simply start the server, then navigate to [http://localhost:3000/api-docs](http://localhost:3000/api-docs) to explore and interact with the full list of APIs.
+- For quick testing, use my [Postman collection](https://drive.google.com/drive/folders/1XwBRxZtgryPGNDpOBRba4QDdkqZEYbZ8?usp=sharing).
 
 ## 🧪 Testing
 Run tests using:

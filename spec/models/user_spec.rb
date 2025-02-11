@@ -37,10 +37,24 @@ RSpec.describe User, type: :model do
   end
 
   describe '#jwt_token' do
-    it 'return encoded jwt token contains user id' do
-      jwt_token = JwtToken.encode(user_id: user.id)
+    it 'calls JwtToken.encode with correct payload', :aggregate_failures do
+      expected_payload = { user_id: user.id, expired_at: DateTime.current + User::JWT_TOKEN_DURATION }
 
-      expect(jwt_token).to eq(user.jwt_token)
+      allow(JwtToken).to receive(:encode).with(hash_including(expected_payload)).and_return('jwt_token')
+
+      token = user.jwt_token
+
+      expect(token).to eq('jwt_token')
+    end
+
+    it 'returns a valid JWT token', :aggregate_failures do
+      token = user.jwt_token
+      decoded_payload = JwtToken.decode(token)
+
+      expect(decoded_payload['user_id']).to eq(user.id)
+      expect(DateTime.parse(decoded_payload['expired_at'])).to be_within(1.minute).of(
+        DateTime.current + User::JWT_TOKEN_DURATION
+      )
     end
   end
 end

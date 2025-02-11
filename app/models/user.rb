@@ -18,6 +18,9 @@
 require 'jwt_token'
 
 class User < ApplicationRecord
+  # constants
+  JWT_TOKEN_DURATION = 3.hours
+
   # attributes
   has_secure_password
 
@@ -31,6 +34,6 @@ class User < ApplicationRecord
   has_many :card_activities, through: :clients
 
   def jwt_token
-    JwtToken.encode(user_id: id)
+    JwtToken.encode(user_id: id, expired_at: DateTime.current + JWT_TOKEN_DURATION)
   end
 end

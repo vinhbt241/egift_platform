@@ -15,6 +15,9 @@ module API
         def current_client
           return if decoded_token.blank?
 
+          expired_at = decoded_token['expired_at']
+          return if expired_at.blank? || DateTime.current > expired_at.to_datetime
+
           client_id = decoded_token['client_id']
           Client.find_by(id: client_id)
         end

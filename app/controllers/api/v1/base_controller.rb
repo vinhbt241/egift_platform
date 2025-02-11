@@ -14,6 +14,9 @@ module API
       def current_user
         return if decoded_token.blank?
 
+        expired_at = decoded_token['expired_at']
+        return if expired_at.blank? || DateTime.current > expired_at.to_datetime
+
         user_id = decoded_token['user_id']
         User.find_by(id: user_id)
       end

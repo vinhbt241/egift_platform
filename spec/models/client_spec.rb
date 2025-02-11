@@ -53,10 +53,24 @@ RSpec.describe Client, type: :model do
   describe '#jwt_token' do
     let(:client) { create(:client) }
 
-    it 'return encoded jwt token contains client id' do
-      jwt_token = JwtToken.encode(client_id: client.id)
+    it 'calls JwtToken.encode with correct payload', :aggregate_failures do
+      expected_payload = { client_id: client.id, expired_at: DateTime.current + Client::JWT_TOKEN_DURATION }
 
-      expect(jwt_token).to eq(client.jwt_token)
+      allow(JwtToken).to receive(:encode).with(hash_including(expected_payload)).and_return('jwt_token')
+
+      token = client.jwt_token
+
+      expect(token).to eq('jwt_token')
+    end
+
+    it 'returns a valid JWT token', :aggregate_failures do
+      token = client.jwt_token
+      decoded_payload = JwtToken.decode(token)
+
+      expect(decoded_payload['client_id']).to eq(client.id)
+      expect(DateTime.parse(decoded_payload['expired_at'])).to be_within(1.minute).of(
+        DateTime.current + Client::JWT_TOKEN_DURATION
+      )
     end
   end
 end

@@ -25,6 +25,7 @@
 class Client < ApplicationRecord
   # constants
   IDENTIFIER_DEFAULT_LENGTH = 50
+  JWT_TOKEN_DURATION = 3.hours
 
   # validations
   validates :name, presence: true, uniqueness: { scope: :user_id }
@@ -42,7 +43,7 @@ class Client < ApplicationRecord
   before_validation :generate_identifier, if: -> { identifier.blank? }
 
   def jwt_token
-    JwtToken.encode(client_id: id)
+    JwtToken.encode(client_id: id, expired_at: DateTime.current + JWT_TOKEN_DURATION)
   end
 
   def generate_identifier

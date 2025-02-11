@@ -20,5 +20,7 @@
 class ActivitySerializer < ApplicationSerializer
   identifier :id
 
-  fields :type, :name, :notes, :created_at
+  fields :type, :name, :notes, :created_at, :trackable_type
+
+  association :trackable, blueprint: ->(trackable) { trackable.serializer }, default: {}
 end

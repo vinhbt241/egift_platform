@@ -61,7 +61,7 @@ class CardActivityQuery < ApplicationQuery
     def by_from_datetime(from_datetime:)
       return self if from_datetime.blank?
 
-      where(created_at: [from_datetime..])
+      where(created_at: [(from_datetime.to_datetime)..])
     end
   end
 end

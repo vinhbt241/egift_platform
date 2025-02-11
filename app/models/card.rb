@@ -66,7 +66,7 @@ class Card < ApplicationRecord
 
   def generate_activation_number
     loop do
-      self.activation_number = SecureRandom.alphanumeric(ACTIVATION_NUMBER_DEFAULT_LENGTH)
+      self.activation_number = SecureRandom.alphanumeric(ACTIVATION_NUMBER_DEFAULT_LENGTH).upcase
 
       break unless Card.exists?(activation_number: activation_number)
     end
@@ -74,7 +74,7 @@ class Card < ApplicationRecord
 
   def generate_pin_number
     loop do
-      self.pin_number = SecureRandom.alphanumeric(PIN_NUMBER_DEFAULT_LENGTH)
+      self.pin_number = SecureRandom.alphanumeric(PIN_NUMBER_DEFAULT_LENGTH).upcase
 
       break unless Card.exists?(activation_number: activation_number, pin_number: pin_number)
     end
@@ -102,5 +102,9 @@ class Card < ApplicationRecord
     card_activities.create!(
       name: Card::CARD_ACTIVITIES[status.to_sym]
     )
+  end
+
+  def serializer
+    CardSerializer
   end
 end

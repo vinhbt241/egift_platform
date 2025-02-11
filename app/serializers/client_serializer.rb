@@ -4,13 +4,14 @@
 #
 # Table name: clients
 #
-#  id          :uuid             not null, primary key
-#  identifier  :string           not null
-#  name        :string           not null
-#  payout_rate :decimal(5, 2)    default(100.0)
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  user_id     :uuid
+#  id              :uuid             not null, primary key
+#  identifier      :string           not null
+#  name            :string           not null
+#  password_digest :string           not null
+#  payout_rate     :decimal(5, 2)    default(100.0)
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  user_id         :uuid
 #
 # Indexes
 #
@@ -25,13 +26,9 @@
 class ClientSerializer < ApplicationSerializer
   identifier :id
 
-  fields :name, :payout_rate
+  fields :name, :payout_rate, :identifier
 
   view :with_token do
     field :jwt_token
-  end
-
-  view :with_identifier do
-    field :identifier
   end
 end

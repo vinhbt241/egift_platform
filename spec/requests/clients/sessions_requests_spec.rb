@@ -24,7 +24,7 @@ describe 'Client Session APIs' do
 
       response '201', 'session created' do
         let!(:client) { create(:client) }
-        let(:params) { { session: { identifier: client.identifier } } }
+        let(:params) { { session: { identifier: client.identifier, password: '12345' } } }
 
         run_test!
       end

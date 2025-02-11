@@ -4,13 +4,14 @@
 #
 # Table name: clients
 #
-#  id          :uuid             not null, primary key
-#  identifier  :string           not null
-#  name        :string           not null
-#  payout_rate :decimal(5, 2)    default(100.0)
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  user_id     :uuid
+#  id              :uuid             not null, primary key
+#  identifier      :string           not null
+#  name            :string           not null
+#  password_digest :string           not null
+#  payout_rate     :decimal(5, 2)    default(100.0)
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  user_id         :uuid
 #
 # Indexes
 #
@@ -26,6 +27,9 @@ class Client < ApplicationRecord
   # constants
   IDENTIFIER_DEFAULT_LENGTH = 50
   JWT_TOKEN_DURATION = 3.hours
+
+  # attributes
+  has_secure_password
 
   # validations
   validates :name, presence: true, uniqueness: { scope: :user_id }

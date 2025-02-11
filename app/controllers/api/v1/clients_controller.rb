@@ -13,11 +13,11 @@ module API
       def create
         client = current_user.clients.create!(client_params)
 
-        render_resource(client, view: :with_identifier, status: :created)
+        render_resource(client, status: :created)
       end
 
       def show
-        render_resource(@client, view: :with_identifier)
+        render_resource(@client)
       end
 
       def update
@@ -29,7 +29,13 @@ module API
       private
 
       def client_params
-        params.require(:client).permit(:name, :payout_rate)
+        params.require(:client).permit(
+          %i[
+            name
+            password
+            payout_rate
+          ]
+        )
       end
 
       def prepare_client

@@ -1,6 +1,6 @@
 # 🎁 eGiftHub - The Ultimate eGift Platform
 
-![Test Coverage](https://img.shields.io/badge/coverage-99.28%25-brightgreen)
+![Test Coverage](https://img.shields.io/badge/coverage-99.15%25-brightgreen)
 
 ## 🚀 Overview
 eGiftHub is a modern eGift platform that allows users to manage brands, products, clients, and issue digital gifts seamlessly. Whether for birthdays, holidays, or just because, eGiftHub makes gifting easy and fun!

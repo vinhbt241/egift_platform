@@ -5,6 +5,7 @@ class CreateClients < ActiveRecord::Migration[7.2]
       t.decimal :payout_rate, precision: 5, scale: 2, default: 100.0
       t.string :name, null: false
       t.string :identifier, null: false
+      t.string :password_digest, null: false
       t.timestamps
     end
 

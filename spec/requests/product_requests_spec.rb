@@ -45,7 +45,7 @@ describe 'Products APIs' do
                 properties: {
                   id: { type: :string },
                   name: { type: :string },
-                  data: { type: :text },
+                  data: { type: :string },
                   field_type_id: { type: :string },
                   _destroy: { type: :boolean }
                 },
@@ -132,7 +132,7 @@ describe 'Products APIs' do
                 properties: {
                   id: { type: :string },
                   name: { type: :string },
-                  data: { type: :text },
+                  data: { type: :string },
                   field_type_id: { type: :string },
                   _destroy: { type: :boolean }
                 }

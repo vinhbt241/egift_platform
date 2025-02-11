@@ -22,7 +22,7 @@ describe 'Client Cards APIs' do
                   brand_id: { type: :string },
                   client_id: { type: :string },
                   name: { type: :string },
-                  from_datetime: { type: :datime }
+                  from_datetime: { type: :string, example: '2025-02-11T15:15:09+00:00' }
                 }
               }
             }

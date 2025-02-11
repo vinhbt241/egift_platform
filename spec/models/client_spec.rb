@@ -4,13 +4,14 @@
 #
 # Table name: clients
 #
-#  id          :uuid             not null, primary key
-#  identifier  :string           not null
-#  name        :string           not null
-#  payout_rate :decimal(5, 2)    default(100.0)
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  user_id     :uuid
+#  id              :uuid             not null, primary key
+#  identifier      :string           not null
+#  name            :string           not null
+#  password_digest :string           not null
+#  payout_rate     :decimal(5, 2)    default(100.0)
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  user_id         :uuid
 #
 # Indexes
 #
@@ -25,6 +26,10 @@
 require 'rails_helper'
 
 RSpec.describe Client, type: :model do
+  describe 'attributes' do
+    it { is_expected.to have_secure_password }
+  end
+
   describe 'validations' do
     subject { create(:client) }
 
